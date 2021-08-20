@@ -1,0 +1,107 @@
+Sub NewLot(ws As String, newNum As String)
+    Worksheets(ws).Unprotect ("bio1fo")
+    Application.ScreenUpdating = False
+    'Récupéréation cellule en haut à gauche
+    Dim headTab As Object
+    
+    Set headTab = Worksheets(ws).Cells.Find("Technicien")
+    
+    If headTab Is Nothing Then
+        Set headTab = Cells.Find("Date")
+        If headTab Is Nothing Then
+            MsgBox "La feuille ouverte ne semble pas exploitable par la macro."
+            End
+        Else
+            Set headTab = Worksheets(ws).Cells(headTab.Row - 2, headTab.Column + 1)
+        End If
+    Else
+        Set headTab = Worksheets(ws).Cells(headTab.Row - 1, headTab.Column + 1)
+    End If
+    
+    
+    'récupération cellule en bas à droite
+    Dim bottomTab As Object, billeHead As Object
+    
+    Set billeHead = Worksheets(ws).Rows("9:13").Find("Bille")
+    
+    If Worksheets(ws).Cells(billeHead.Row + 1, billeHead.Column) = "" Then
+        MsgBox "La colonne des billes la feuille" + ws + " est vide, elle est nécessaire au bon fonctionnement de la macro d'archivage"
+        Exit Sub
+    End If
+    
+    Set bottomTab = Worksheets(ws).Cells(billeHead.End(xlDown).Row, Cells(headTab.Row + 1, headTab.Column).End(xlToRight).Column)
+    
+    
+    'récupération locus
+    locus = Split(ws, " ")(1)
+    
+    
+    'ouverture nouvelle feuille
+    newSh = False
+    
+    For Each Worksheet In Worksheets
+        nom = Worksheet.Name
+        If nom = "Historique - Locus " + locus Then
+            newSh = True
+            Exit For
+        End If
+    Next Worksheet
+    
+    If newSh = False Then
+        Sheets.Add(After:=Worksheets(Worksheets.Count)).Name = "Historique - Locus " + locus
+        Worksheets("Historique - Locus " + locus).Protect ("bio1fo")
+    End If
+
+
+    'copie-collage données dans nouvelle feuille
+    Dim sheetName As String
+    
+    sheetName = "Historique - Locus " + locus
+    Worksheets(sheetName).Unprotect ("bio1fo")
+    
+    lastCol = Worksheets(sheetName).Cells.SpecialCells(xlCellTypeLastCell).Column
+    If lastCol <> 1 Then
+        lastCol = lastCol + 3
+    End If
+    
+    
+    Set lotCell = Worksheets(ws).Cells.Find("Lot billes")
+    Worksheets(sheetName).Cells(1, lastCol).Value = "Lot n°" + Worksheets(ws).Cells(lotCell.Row, lotCell.Column + 1).Text
+    
+    With Worksheets(sheetName).Cells(1, lastCol).Font
+        .Size = 20
+        .Bold = True
+        .Underline = True
+    End With
+    
+    
+    'suppression checkboxes
+    For Each chk In Worksheets(ws).checkboxes
+        chk.delete
+    Next chk
+    
+    'copie collage
+    Range(Worksheets(ws).Cells(billeHead.Row, billeHead.Column), Worksheets(ws).Cells(billeHead.End(xlDown).Row, billeHead.Column)).Copy Worksheets(sheetName).Cells(4, lastCol)
+    Range(headTab, bottomTab).Copy Worksheets(sheetName).Cells(1, lastCol + 1)
+    
+    'suppression couleurs
+    With Range(headTab, bottomTab).Interior
+        .Pattern = xlNone
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    
+
+    
+    'Nettoyage tableau
+    Range(Worksheets(ws).Cells(billeHead.Row + 1, billeHead.Column), Worksheets(ws).Cells(billeHead.End(xlDown).Row, billeHead.Column + 3)).ClearContents
+    Range(headTab, bottomTab).ClearContents
+    
+    'nouveau numéro de lot
+    Worksheets(ws).Cells(lotCell.Row, lotCell.Column + 1).Value = newNum
+    Application.ScreenUpdating = True
+    
+    Worksheets(ws).Protect ("bio1fo")
+    Worksheets(sheetName).Unprotect ("bio1fo")
+End Sub
+
