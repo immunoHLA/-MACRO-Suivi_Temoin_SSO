@@ -1,0 +1,412 @@
+Sub AddSSO()
+'
+' AddSSO Macro
+
+
+    
+    
+'
+    Workbooks("Suivi_témoin_SSO.xlsm").Activate
+    
+    UserForm1.Show
+    
+    Application.ScreenUpdating = False
+    
+    Dim listeInit As Variant
+    listeInit = arrayCSV()
+    
+    Dim listLocus As Variant
+    listeLocus = Array()
+    
+
+'    For Each ws In ActiveWorkbook.Worksheets
+'
+'        If InStr(ws.Name, "en cours") <> 0 Then
+'            locus = Split(ws.Name, " ")(1)
+'
+'            Dim cellRxn As Object, cellBille As Object, cellDate As Object
+'
+'            Set cellRxn = Worksheets(ws.Name).Rows(11).Find("Rxn")
+'            Set cellBille = Worksheets(ws.Name).Rows(11).Find("BILLE")
+'            Set cellCutoff = Worksheets(ws.Name).Rows(11).Find("Cutoff")
+'            Set cellNormal = Worksheets(ws.Name).Rows(11).Find("Normal")
+'            Set cellDate = Worksheets(ws.Name).Rows(10).Find("Date d'analyse")
+'
+'            'initialisation colonne "Normal"
+'            Range(Worksheets(ws.Name).Cells(cellNormal.Row + 1, cellNormal.Column), Worksheets(ws.Name).Cells(cellBille.End(xlDown).Row, cellNormal.Column)).ClearContents
+'
+'            'tri des billes pas ordre croissant
+'            Range(Worksheets(ws.Name).Cells(cellBille.Row + 1, cellBille.Column), Worksheets(ws.Name).Cells(cellBille.End(xlDown).Row, cellDate.End(xlToRight).Column)).Sort _
+'                Worksheets(ws.Name).Columns(cellBille.Column), xlAscending, , , , Header:=xlNo
+'
+'            If Worksheets(ws.Name).Cells(cellDate.Row, cellDate.Column + 1) <> "" Then
+'                lastCol = cellDate.End(xlToRight).Column + 1
+'            Else
+'                lastCol = cellDate.Column + 1
+'            End If
+'
+'
+'
+'            If locus = "A" Then
+'                sessionName = "X1A"
+'            ElseIf locus = "B" Then
+'                sessionName = "X1B"
+'            ElseIf locus = "C" Then
+'                sessionName = "X1C"
+'            ElseIf locus = "DR" Then
+'                sessionName = "X2B"
+'            ElseIf locus = "DQ" Then
+'                sessionName = "2Q"
+'            ElseIf locus = "DP" Then
+'                sessionName = "2P"
+'            ElseIf locus = "DR345" Then
+'                sessionName = "O2345"
+'            End If
+'
+'            completed = False
+'            ligne = cellBille.Row + 1
+'
+'            For Each subArr In listeInit
+'                If InStr(subArr(0), sessionName) <> 0 Then
+'                    Worksheets(ws.Name).Activate
+'
+'                    If Int(Replace(subArr(1), """", "")) = Cells(ligne, cellBille.Column).Value Or lastCol = cellDate.Column + 1 Then
+'
+'                        'gestion première entrée
+'                        If lastCol = cellDate.Column + 1 Then
+'                            Worksheets(ws.Name).Cells(ligne, cellBille.Column) = Replace(subArr(1), """", "") 'Billes
+'                            Worksheets(ws.Name).Cells(ligne, cellRxn.Column) = Replace(subArr(2), """", "") 'Rxn
+'                            Worksheets(ws.Name).Cells(ligne, cellCutoff.Column) = Replace(subArr(5), """", "") 'cutoff
+'                        End If
+'
+'                        Worksheets(ws.Name).Cells(ligne, cellNormal.Column) = Replace(subArr(4), """", "") 'valeurs de la série
+'                        Worksheets(ws.Name).Cells(ligne, lastCol) = Replace(subArr(4), """", "")
+'
+'                        If Worksheets(ws.Name).Cells(cellDate.Row - 1, lastCol) = "" Then 'cellule initiales tech
+'                            Worksheets(ws.Name).Cells(cellDate.Row - 1, lastCol) = UCase(Replace(subArr(7), """", ""))
+'                        End If
+'                        If Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = "" Then 'cellule date d'analyse
+'                            Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = Replace(subArr(6), """", "")
+'                            If Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = "" Then
+'                                Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = "-"
+'                            End If
+'                        End If
+'
+'
+'                        ligne = ligne + 1
+'
+'                        completed = True
+'                    End If
+'                End If
+'            Next subArr
+'
+'            'cellule commentaire
+'            If completed = True Then
+'
+'                'checkbox
+'                AddCheckBox Cells(cellDate.Row - 2, lastCol), False
+'
+'                'liste
+'                addToArray listeLocus, locus
+'            End If
+'
+'            'couleurs
+'            If lastCol > cellDate.Column + 1 And completed = True Then
+'                For Each bille In Range(Worksheets(ws.Name).Cells(cellBille.Row + 1, cellBille.Column), cellBille.End(xlDown))
+'                    moy = Format(Cells(bille.Row, 1).Value, 0)
+'                    ect = Format(Cells(bille.Row, 2).Value, 0)
+'
+'
+'                    For Each valeur In Range(Worksheets(ws.Name).Cells(bille.Row, cellDate.Column + 1), Worksheets(ws.Name).Cells(bille.Row, lastCol))
+'                        If IsNumeric(valeur) And valeur <> "" Then
+'                            If (valeur.Value < (moy + (ect * 2)) And valeur.Value > (moy - (ect * 2))) Or ect = 0 Then
+'                                With valeur
+'                                    .Interior.Color = 5296274  'vert
+'                                    .Font.ColorIndex = xlAutomatic
+'                                    .Font.TintAndShade = 0
+'                                End With
+'                            ElseIf valeur.Value < (moy + (ect * 3)) And valeur.Value > (moy - (ect * 3)) Then
+'                                With valeur
+'                                    .Interior.Color = 49407 'orange
+'                                    .Font.ColorIndex = xlAutomatic
+'                                    .Font.TintAndShade = 0
+'                                End With
+'                            Else
+'                                With valeur
+'                                    .Interior.Color = 255 'rouge
+'                                    .Font.ColorIndex = xlAutomatic
+'                                    .Font.TintAndShade = 0
+'                                End With
+'                            End If
+'
+'                            If (CInt(valeur.Value) > CInt(Worksheets(ws.Name).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(ws.Name).Cells(valeur.Row, cellRxn.Column)) = 1) Then
+'                                With valeur
+'                                    .Interior.Color = 10498160 'violet
+'                                    .Font.ThemeColor = xlThemeColorDark1
+'                                    .Font.TintAndShade = 0
+'                                End With
+'                            ElseIf (CInt(valeur.Value) < CInt(Worksheets(ws.Name).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(ws.Name).Cells(valeur.Row, cellRxn.Column)) = 8) Then
+'                                With valeur
+'                                    .Interior.Color = 12611584 'bleu
+'                                    .Font.ThemeColor = xlThemeColorDark1
+'                                    .Font.TintAndShade = 0
+'                                End With
+'
+'                            End If
+'                        End If
+'                    Next valeur
+'                Next bille
+'            End If
+'
+'            'tri des billes pas ordre croissant
+'            Range(Worksheets(ws.Name).Cells(cellBille.Row + 1, cellBille.Column), Worksheets(ws.Name).Cells(cellBille.End(xlDown).Row, cellDate.End(xlToRight).Column)).Sort _
+'                Worksheets(ws.Name).Columns(cellRxn.Column), xlDescending, , , , Header:=xlNo
+'        End If
+'    Next ws
+
+    '-------------------------------------
+    identification = ""
+    lastCol = 0
+    feuille = ""
+    For Each subArr In listeInit
+
+        If CStr(subArr(0)) + CStr(Replace(subArr(6), """", "")) <> identification Then
+
+            feuille = ""
+
+            If InStr(subArr(0), "X1A") <> 0 Then
+                feuille = "Locus A en cours"
+            ElseIf InStr(subArr(0), "X1B") <> 0 Then
+                feuille = "Locus B en cours"
+            ElseIf InStr(subArr(0), "X1C") <> 0 Then
+                feuille = "Locus C en cours"
+            ElseIf InStr(subArr(0), "X2B") <> 0 Then
+                feuille = "Locus DR en cours"
+            ElseIf InStr(subArr(0), "2Q") <> 0 Then
+                feuille = "Locus DQ en cours"
+            ElseIf InStr(subArr(0), "2P") <> 0 Then
+                feuille = "Locus DP en cours"
+            ElseIf InStr(subArr(0), "O2345") <> 0 Then
+                feuille = "Locus DR345 en cours"
+            End If
+
+
+            If feuille <> "" Then
+            
+                If inArray(listeLocus, Split(feuille, " ")(1)) = False Then
+                    addToArray listeLocus, Split(feuille, " ")(1)
+                End If
+                
+                Dim cellRxn As Object, cellBille As Object, cellDate As Object
+            
+                Set cellRxn = Worksheets(feuille).Rows(11).Find("Rxn")
+                Set cellBille = Worksheets(feuille).Rows(11).Find("BILLE")
+                Set cellCutoff = Worksheets(feuille).Rows(11).Find("Cutoff")
+                Set cellNormal = Worksheets(feuille).Rows(11).Find("Normal")
+                Set cellDate = Worksheets(feuille).Rows(10).Find("Date d'analyse")
+
+                ligne = cellBille.Row + 1
+                'initialisation colonne "Normal"
+                Range(Worksheets(feuille).Cells(cellNormal.Row + 1, cellNormal.Column), Worksheets(feuille).Cells(cellBille.End(xlDown).Row, cellNormal.Column)).ClearContents
+
+                'tri des billes pas ordre croissant
+                Range(Worksheets(feuille).Cells(cellBille.Row + 1, cellBille.Column), Worksheets(feuille).Cells(cellBille.End(xlDown).Row, cellDate.End(xlToRight).Column)).Sort _
+                    Worksheets(feuille).Columns(cellBille.Column), xlAscending, , , , Header:=xlNo
+
+                'derniere colonne
+                If Worksheets(feuille).Cells(cellDate.Row, cellDate.Column + 1) <> "" Then
+                    lastCol = cellDate.End(xlToRight).Column + 1
+                Else
+                    lastCol = cellDate.Column + 1
+                End If
+
+                'checkbox
+                AddCheckBox Worksheets(feuille).Cells(cellDate.Row - 2, lastCol), CStr(feuille), False
+            
+                identification = CStr(subArr(0)) + CStr(Replace(subArr(6), """", ""))
+            End If
+        End If
+        
+        'completion colonnes
+        If feuille <> "" Then
+            If Int(Replace(subArr(1), """", "")) = Worksheets(feuille).Cells(ligne, cellBille.Column).Value Or lastCol = cellDate.Column + 1 Then
+                'gestion première entrée
+                If lastCol = cellDate.Column + 1 Then
+                    Worksheets(feuille).Cells(ligne, cellBille.Column) = Replace(subArr(1), """", "") 'Billes
+                    Worksheets(feuille).Cells(ligne, cellRxn.Column) = Replace(subArr(2), """", "") 'Rxn
+                    Worksheets(feuille).Cells(ligne, cellCutoff.Column) = Replace(subArr(5), """", "") 'cutoff
+                End If
+                
+                Worksheets(feuille).Cells(ligne, cellNormal.Column) = Replace(subArr(4), """", "") 'valeurs de la série
+                Worksheets(feuille).Cells(ligne, lastCol) = Replace(subArr(4), """", "")
+                
+                If Worksheets(feuille).Cells(cellDate.Row - 1, lastCol) = "" Then 'cellule initiales tech
+                    Worksheets(feuille).Cells(cellDate.Row - 1, lastCol) = UCase(Replace(subArr(7), """", ""))
+                End If
+                If Worksheets(feuille).Cells(cellDate.Row, lastCol) = "" Then 'cellule date d'analyse
+                    If InStr(Replace(subArr(6), """", ""), "/") <> 0 Then
+                        Worksheets(feuille).Cells(cellDate.Row, lastCol).Value = CDate(Replace(subArr(6), """", ""))
+                    End If
+                    
+                    If Worksheets(feuille).Cells(cellDate.Row, lastCol) = "" Then
+                        Worksheets(feuille).Cells(cellDate.Row, lastCol) = "-"
+                    End If
+                End If
+                ligne = ligne + 1
+                
+                
+
+            End If
+        
+            'couleurs
+            If ligne = cellBille.End(xlDown).Row + 1 And lastCol <> cellDate.Column + 1 Then
+            
+                For Each bille In Range(Worksheets(feuille).Cells(cellBille.Row + 1, cellBille.Column), cellBille.End(xlDown))
+                    moy = Format(Worksheets(feuille).Cells(bille.Row, 1).Value, 0)
+                    ect = Format(Worksheets(feuille).Cells(bille.Row, 2).Value, 0)
+    
+    
+                    For Each valeur In Range(Worksheets(feuille).Cells(bille.Row, cellDate.Column + 1), Worksheets(feuille).Cells(bille.Row, lastCol))
+                        If IsNumeric(valeur) And valeur <> "" Then
+                            If (valeur.Value < (moy + (ect * 2)) And valeur.Value > (moy - (ect * 2))) Or ect = 0 Then
+                                With valeur
+                                    .Interior.Color = 5296274  'vert
+                                    .Font.ColorIndex = xlAutomatic
+                                    .Font.TintAndShade = 0
+                                End With
+                            ElseIf valeur.Value < (moy + (ect * 3)) And valeur.Value > (moy - (ect * 3)) Then
+                                With valeur
+                                    .Interior.Color = 49407 'orange
+                                    .Font.ColorIndex = xlAutomatic
+                                    .Font.TintAndShade = 0
+                                End With
+                            Else
+                                With valeur
+                                    .Interior.Color = 255 'rouge
+                                    .Font.ColorIndex = xlAutomatic
+                                    .Font.TintAndShade = 0
+                                End With
+                            End If
+    
+                            If (CInt(valeur.Value) > CInt(Worksheets(feuille).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column)) = 1) Then
+                                With valeur
+                                    .Interior.Color = 10498160 'violet
+                                    .Font.ThemeColor = xlThemeColorDark1
+                                    .Font.TintAndShade = 0
+                                End With
+                            ElseIf (CInt(valeur.Value) < CInt(Worksheets(feuille).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column)) = 8) Then
+                                With valeur
+                                    .Interior.Color = 12611584 'bleu
+                                    .Font.ThemeColor = xlThemeColorDark1
+                                    .Font.TintAndShade = 0
+                                End With
+                            End If
+                        End If
+                    Next valeur
+                Next bille
+                
+                'tri des billes pas ordre croissant
+                Range(Worksheets(feuille).Cells(cellBille.Row + 1, cellBille.Column), Worksheets(feuille).Cells(cellBille.End(xlDown).Row, cellDate.End(xlToRight).Column)).Sort _
+                Worksheets(feuille).Columns(cellRxn.Column), xlDescending, , , , Header:=xlNo
+            End If
+        End If
+        
+    Next subArr
+    
+    
+    '---------------------------------------
+    
+    
+    Application.ScreenUpdating = True
+    ActiveWorkbook.Save
+    
+    If UBound(listeLocus) > 0 Then
+        MsgBox "L'enregistrement des Locus " + Join(listeLocus, ", ") + " s'est effectué avec succès" + Chr(13) + Chr(13) + "Pensez à compléter vos commentaires pour ces séries"
+    Else
+        MsgBox "L'enregistrement du Locus " + listeLocus(0) + " s'est effectué avec succès." + Chr(13) + Chr(13) + "Pensez à compléter votre commentaire pour cette série"
+    End If
+    
+End Sub
+
+Function arrayCSV() As Variant
+    Dim MyLine As String, FileNum As Long, file1
+    Dim subArray As Variant, tempCSV As Variant
+    
+    file1 = Application.GetOpenFilename("csv Files,*.csv", _
+            1, "Select source file:", , False)
+    If file1 = False Then
+        MsgBox "Pas de fichier selectionné ou celui ci n'existe pas"
+        End
+    End If
+    
+    'Get an unused file number
+    FileNum = FreeFile
+    
+    Open file1 For Input As #FileNum
+    If Err.Number <> 0 Then
+        MsgBox "Erreur de lecture du fichier csv", vbCritical, "Error!"
+        Exit Function
+    End If
+    
+    Dim Items As Variant
+
+    tempCSV = Array()
+    
+    While Not EOF(1)
+        Line Input #FileNum, MyLine
+        subArray = Split(MyLine, ";")
+            
+        If IsEmpty(tempCSV) Then
+            tempCSV = Array(subArray)
+        Else
+            ReDim Preserve tempCSV(UBound(tempCSV) + 1)
+            tempCSV(UBound(tempCSV)) = subArray
+        End If
+
+    Wend
+    
+    Close #FileNum
+    Kill file1
+    arrayCSV = tempCSV
+    
+End Function
+
+Sub AddCheckBox(cell As Object, feuille As String, check As Boolean)
+'
+' Macro par Mytå
+'
+    Dim chk As CheckBox
+    
+    'Set chk = ActiveSheet.CheckBoxes.Add(30, 69, 0, 0)
+    Set chk = Worksheets(feuille).checkboxes.Add(cell.Left - 10 + cell.Width / 2, cell.Top, 0, cell.Height)
+    
+    With chk
+      .Text = ""
+      .LinkedCell = cell.Address
+    End With
+    
+    If check = True Then
+        chk.Value = xlOn
+    Else
+        chk.Value = xlOff
+    End If
+    
+    cell.Font.ColorIndex = 2
+
+End Sub
+Function inArray(arr As Variant, elmt) As Boolean
+    inArray = False
+    For Each valeur In arr
+        If elmt = valeur Then
+            inArray = True
+            Exit For
+        End If
+    Next valeur
+End Function
+Sub addToArray(arr As Variant, elmt)
+    ReDim Preserve arr(UBound(arr) + 1)
+    arr(UBound(arr)) = elmt
+End Sub
+
+
+
