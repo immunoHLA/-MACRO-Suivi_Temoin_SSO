@@ -1,0 +1,413 @@
+
+Private Sub CheckBoxA_Click()
+    If CheckBoxA.Value = True Then
+        newA.Visible = True
+        num2.Visible = True
+    Else
+        newA.Visible = False
+    End If
+    
+    If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
+        num2.Visible = False
+    End If
+End Sub
+
+
+Private Sub CheckBoxB_Click()
+    If CheckBoxB.Value = True Then
+        newB.Visible = True
+        num2.Visible = True
+    Else
+        newB.Visible = False
+    End If
+    
+    If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
+        num2.Visible = False
+    End If
+End Sub
+
+Private Sub CheckBoxC_Click()
+    If CheckBoxC.Value = True Then
+        newC.Visible = True
+        num2.Visible = True
+    Else
+        newC.Visible = False
+    End If
+    
+    If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
+        num2.Visible = False
+    End If
+End Sub
+
+Private Sub CheckBoxDR_Click()
+    If CheckBoxDR.Value = True Then
+        newDR.Visible = True
+        num2.Visible = True
+    Else
+        newDR.Visible = False
+    End If
+    
+    If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
+        num2.Visible = False
+    End If
+End Sub
+
+Private Sub CheckBoxDP_Click()
+    If CheckBoxDP.Value = True Then
+        newDP.Visible = True
+        num2.Visible = True
+    Else
+        newDP.Visible = False
+    End If
+    
+    If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
+        num2.Visible = False
+    End If
+End Sub
+
+Private Sub CheckBoxDQ_Click()
+    If CheckBoxDQ.Value = True Then
+        newDQ.Visible = True
+        num2.Visible = True
+    Else
+        newDQ.Visible = False
+    End If
+    
+    If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
+        num2.Visible = False
+    End If
+End Sub
+
+Private Sub CheckBoxDR345_Click()
+    If CheckBoxDR345.Value = True Then
+        newDR345.Visible = True
+        num2.Visible = True
+    Else
+        newDR345.Visible = False
+    End If
+    
+    If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
+        num2.Visible = False
+    End If
+End Sub
+Private Sub CheckBoxA2_Click()
+    If CheckBoxA2.Value = True Then
+        CheckBoxA2.Left = 204
+        initA.Visible = True
+        dateA.Visible = True
+        commA.Visible = True
+        Label8.Visible = True
+        Label9.Visible = True
+        Label10.Visible = True
+    Else
+        CheckBoxA2.Left = 254
+        initA.Visible = False
+        dateA.Visible = False
+        commA.Visible = False
+    End If
+    
+    If CheckBoxA2.Value = False And CheckBoxB2.Value = False And CheckBoxC2.Value = False And CheckBoxDR2.Value = False And CheckBoxDQ2.Value = False And CheckBoxDP2.Value = False And CheckBoxDR3452.Value = False Then
+        Label8.Visible = False
+        Label9.Visible = False
+        Label10.Visible = False
+    End If
+End Sub
+Private Sub CheckBoxB2_Click()
+    If CheckBoxB2.Value = True Then
+        CheckBoxB2.Left = 204
+        initB.Visible = True
+        dateB.Visible = True
+        commB.Visible = True
+        Label8.Visible = True
+        Label9.Visible = True
+        Label10.Visible = True
+    Else
+        CheckBoxB2.Left = 254
+        initB.Visible = False
+        dateB.Visible = False
+        commB.Visible = False
+    End If
+    
+    If CheckBoxA2.Value = False And CheckBoxB2.Value = False And CheckBoxC2.Value = False And CheckBoxDR2.Value = False And CheckBoxDQ2.Value = False And CheckBoxDP2.Value = False And CheckBoxDR3452.Value = False Then
+        Label8.Visible = False
+        Label9.Visible = False
+        Label10.Visible = False
+    End If
+End Sub
+Private Sub CheckBoxC2_Click()
+    If CheckBoxC2.Value = True Then
+        CheckBoxC2.Left = 204
+        initC.Visible = True
+        dateC.Visible = True
+        commC.Visible = True
+        Label8.Visible = True
+        Label9.Visible = True
+        Label10.Visible = True
+    Else
+        CheckBoxC2.Left = 254
+        initC.Visible = False
+        dateC.Visible = False
+        commC.Visible = False
+    End If
+    
+    If CheckBoxA2.Value = False And CheckBoxB2.Value = False And CheckBoxC2.Value = False And CheckBoxDR2.Value = False And CheckBoxDQ2.Value = False And CheckBoxDP2.Value = False And CheckBoxDR3452.Value = False Then
+        Label8.Visible = False
+        Label9.Visible = False
+        Label10.Visible = False
+    End If
+End Sub
+Private Sub CheckBoxDR2_Click()
+    If CheckBoxDR2.Value = True Then
+        CheckBoxDR2.Left = 204
+        initDR.Visible = True
+        dateDR.Visible = True
+        commDR.Visible = True
+        Label8.Visible = True
+        Label9.Visible = True
+        Label10.Visible = True
+    Else
+        CheckBoxDR2.Left = 254
+        initDR.Visible = False
+        dateDR.Visible = False
+        commDR.Visible = False
+    End If
+    
+    If CheckBoxA2.Value = False And CheckBoxB2.Value = False And CheckBoxC2.Value = False And CheckBoxDR2.Value = False And CheckBoxDQ2.Value = False And CheckBoxDP2.Value = False And CheckBoxDR3452.Value = False Then
+        Label8.Visible = False
+        Label9.Visible = False
+        Label10.Visible = False
+    End If
+End Sub
+Private Sub CheckBoxDQ2_Click()
+    If CheckBoxDQ2.Value = True Then
+        CheckBoxDQ2.Left = 204
+        initDQ.Visible = True
+        dateDQ.Visible = True
+        commDQ.Visible = True
+        Label8.Visible = True
+        Label9.Visible = True
+        Label10.Visible = True
+    Else
+        CheckBoxDQ2.Left = 254
+        initDQ.Visible = False
+        dateDQ.Visible = False
+        commDQ.Visible = False
+    End If
+    
+    If CheckBoxA2.Value = False And CheckBoxB2.Value = False And CheckBoxC2.Value = False And CheckBoxDR2.Value = False And CheckBoxDQ2.Value = False And CheckBoxDP2.Value = False And CheckBoxDR3452.Value = False Then
+        Label8.Visible = False
+        Label9.Visible = False
+        Label10.Visible = False
+    End If
+End Sub
+Private Sub CheckBoxDP2_Click()
+    If CheckBoxDP2.Value = True Then
+        CheckBoxDP2.Left = 204
+        initDP.Visible = True
+        dateDP.Visible = True
+        commDP.Visible = True
+        Label8.Visible = True
+        Label9.Visible = True
+        Label10.Visible = True
+    Else
+        CheckBoxDP2.Left = 254
+        initDP.Visible = False
+        dateDP.Visible = False
+        commDP.Visible = False
+    End If
+    
+    If CheckBoxA2.Value = False And CheckBoxB2.Value = False And CheckBoxC2.Value = False And CheckBoxDR2.Value = False And CheckBoxDQ2.Value = False And CheckBoxDP2.Value = False And CheckBoxDR3452.Value = False Then
+        Label8.Visible = False
+        Label9.Visible = False
+        Label10.Visible = False
+    End If
+End Sub
+Private Sub CheckBoxDR3452_Click()
+    If CheckBoxDR3452.Value = True Then
+        CheckBoxDR3452.Left = 204
+        initDR345.Visible = True
+        dateDR345.Visible = True
+        commDR345.Visible = True
+        Label8.Visible = True
+        Label9.Visible = True
+        Label10.Visible = True
+    Else
+        CheckBoxDR3452.Left = 254
+        initDR345.Visible = False
+        dateDR345.Visible = False
+        commDR345.Visible = False
+    End If
+    
+    If CheckBoxA2.Value = False And CheckBoxB2.Value = False And CheckBoxC2.Value = False And CheckBoxDR2.Value = False And CheckBoxDQ2.Value = False And CheckBoxDP2.Value = False And CheckBoxDR3452.Value = False Then
+        Label8.Visible = False
+        Label9.Visible = False
+        Label10.Visible = False
+    End If
+End Sub
+
+
+Private Sub CommandButton1_Click()
+    End
+End Sub
+
+
+Sub actionCheckboxes()
+    If CheckBoxA.Value = True Then 'changement lot locus A
+        NewLot "Locus A en cours", newA.Value
+    End If
+    
+    If CheckBoxB.Value = True Then 'changement lot locus B
+        NewLot "Locus B en cours", newB.Value
+    End If
+    
+    If CheckBoxC.Value = True Then 'changement lot locus C
+        NewLot "Locus C en cours", newC.Value
+    End If
+    
+    If CheckBoxDR.Value = True Then 'changement lot locus DR
+        NewLot "Locus DR en cours", newDR.Value
+    End If
+    
+    If CheckBoxDQ.Value = True Then 'changement lot locus DQ
+        NewLot "Locus DQ en cours", newDQ.Value
+    End If
+    
+    If CheckBoxDP.Value = True Then 'changement lot locus DP
+        NewLot "Locus DP en cours", newDP.Value
+    End If
+    
+    
+    If CheckBoxDR345.Value = True Then 'changement lot locus DR345
+        NewLot "Locus DR345 en cours", newDR345.Value
+    End If
+    
+    Dim cellDate As Object
+    If CheckBoxA2.Value = True Then 'série vide locus A
+        Set cellDate = Worksheets("Locus A en cours").Rows(10).Find("Date d'analyse")
+        
+        If Worksheets("Locus A en cours").Cells(cellDate.Row, cellDate.Column + 1) = "" Then
+            lastCol = cellDate.Column + 1
+        Else
+            lastCol = cellDate.End(xlToRight).Column + 1
+        End If
+        
+        AddCheckBox Cells(cellDat.Row - 2, lastCol), "Locus A en cours", True
+        Worksheets("Locus A en cours").Cells(cellDate.Row - 1, lastCol) = UCase(initA.Value)
+        Worksheets("Locus A en cours").Cells(cellDate.Row, lastCol) = dateA.Value
+        Worksheets("Locus A en cours").Cells(cellDate.Row + 1, lastCol) = commA.Value
+    End If
+    
+    If CheckBoxB2.Value = True Then 'série vide locus B
+        Set cellDate = Worksheets("Locus B en cours").Rows(10).Find("Date d'analyse")
+        
+        If Worksheets("Locus B en cours").Cells(cellDate.Row, cellDat.Column + 1) = "" Then
+            lastCol = cellDate.Column + 1
+        Else
+            lastCol = cellDate.End(xlToRight).Column + 1
+        End If
+        
+        AddCheckBox Cells(cellDat.Row - 2, lastCol), "Locus B en cours", True
+        Worksheets("Locus B en cours").Cells(cellDate.Row - 1, lastCol) = UCase(initB.Value)
+        Worksheets("Locus B en cours").Cells(cellDate.Row, lastCol) = dateB.Value
+        Worksheets("Locus B en cours").Cells(cellDate.Row + 1, lastCol) = commB.Value
+    End If
+    
+    If CheckBoxC2.Value = True Then 'série vide locus C
+        Set cellDate = Worksheets("Locus C en cours").Rows(10).Find("Date d'analyse")
+        
+        If Worksheets("Locus C en cours").Cells(cellDate.Row, cellDat.Column + 1) = "" Then
+            lastCol = cellDate.Column + 1
+        Else
+            lastCol = cellDate.End(xlToRight).Column + 1
+        End If
+        
+        AddCheckBox Cells(cellDat.Row - 2, lastCol), "Locus C en cours", True
+        Worksheets("Locus C en cours").Cells(cellDate.Row - 1, lastCol) = UCase(initC.Value)
+        Worksheets("Locus C en cours").Cells(cellDate.Row, lastCol) = dateC.Value
+        Worksheets("Locus C en cours").Cells(cellDate.Row + 1, lastCol) = commC.Value
+    End If
+    
+    If CheckBoxDR2.Value = True Then 'série vide locus DR
+        Set cellDate = Worksheets("Locus DR en cours").Rows(10).Find("Date d'analyse")
+        
+        If Worksheets("Locus DR en cours").Cells(cellDate.Row, cellDat.Column + 1) = "" Then
+            lastCol = cellDate.Column + 1
+        Else
+            lastCol = cellDate.End(xlToRight).Column + 1
+        End If
+        
+        AddCheckBox Cells(cellDat.Row - 2, lastCol), "Locus DR en cours", True
+        Worksheets("Locus DR en cours").Cells(cellDate.Row - 1, lastCol) = UCase(initDR.Value)
+        Worksheets("Locus DR en cours").Cells(cellDate.Row, lastCol) = dateDR.Value
+        Worksheets("Locus DR en cours").Cells(cellDate.Row + 1, lastCol) = commDR.Value
+    End If
+    
+    If CheckBoxDQ2.Value = True Then 'série vide locus DQ
+        Set cellDate = Worksheets("Locus DQ en cours").Rows(10).Find("Date d'analyse")
+        
+        If Worksheets("Locus DQ en cours").Cells(cellDate.Row, cellDat.Column + 1) = "" Then
+            lastCol = cellDate.Column + 1
+        Else
+            lastCol = cellDate.End(xlToRight).Column + 1
+        End If
+        
+        AddCheckBox Cells(cellDat.Row - 2, lastCol), "Locus DQ en cours", True
+        Worksheets("Locus DQ en cours").Cells(cellDate.Row - 1, lastCol) = UCase(initDQ.Value)
+        Worksheets("Locus DQ en cours").Cells(cellDate.Row, lastCol) = dateDQ.Value
+        Worksheets("Locus DQ en cours").Cells(cellDate.Row + 1, lastCol) = commDQ.Value
+    End If
+    
+    If CheckBoxDP2.Value = True Then 'série vide locus DP
+        Set cellDate = Worksheets("Locus DP en cours").Rows(10).Find("Date d'analyse")
+        
+        If Worksheets("Locus DP en cours").Cells(cellDate.Row, cellDat.Column + 1) = "" Then
+            lastCol = cellDate.Column + 1
+        Else
+            lastCol = cellDate.End(xlToRight).Column + 1
+        End If
+        
+        AddCheckBox Cells(cellDat.Row - 2, lastCol), "Locus DP en cours", True
+        Worksheets("Locus DP en cours").Cells(cellDate.Row - 1, lastCol) = UCase(initDP.Value)
+        Worksheets("Locus DP en cours").Cells(cellDate.Row, lastCol) = dateDP.Value
+        Worksheets("Locus DP en cours").Cells(cellDate.Row + 1, lastCol) = commDP.Value
+    End If
+    
+    If CheckBoxDR3452.Value = True Then 'série vide locus DR345
+        Set cellDate = Worksheets("Locus DR345 en cours").Rows(10).Find("Date d'analyse")
+        
+        If Worksheets("Locus DR345 en cours").Cells(cellDate.Row, cellDat.Column + 1) = "" Then
+            lastCol = cellDate.Column + 1
+        Else
+            lastCol = cellDate.End(xlToRight).Column + 1
+        End If
+        
+        AddCheckBox Cells(cellDat.Row - 2, lastCol), "Locus DR345 en cours", True
+        Worksheets("Locus DR345 en cours").Cells(cellDate.Row - 1, lastCol) = UCase(initDR345.Value)
+        Worksheets("Locus DR345 en cours").Cells(cellDate.Row, lastCol) = dateDR345.Value
+        Worksheets("Locus DR345 en cours").Cells(cellDate.Row + 1, lastCol) = commDR345.Value
+    End If
+End Sub
+
+Private Sub CommandButton2_Click()
+    actionCheckboxes
+    ActiveWorkbook.Save
+    End
+End Sub
+
+Private Sub Label19_Click()
+
+End Sub
+
+Private Sub Label2_Click()
+
+End Sub
+
+Private Sub Label7_Click()
+
+End Sub
+
+Private Sub validButton_Click()
+    actionCheckboxes
+    Unload Me
+End Sub
+
