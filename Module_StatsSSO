@@ -1,0 +1,306 @@
+Sub statsSSO()
+
+    Workbooks("Suivi_témoin_SSO.xlsm").Worksheets("Stats").Activate
+    
+    Application.ScreenUpdating = False
+    Worksheets("Stats").Unprotect ("bio1fo")
+    'nettoyage
+    Range("B2:I10,B14:I22,B26:I34,B38:I46,B50:I58,B62:I70,B74:I82,M2:T10").ClearContents
+    Range("L19").ClearContents
+
+    Do
+        Do
+            choiceDate = InputBox("Veuillez entrez une année.", "Statistiques SSO")
+            If choiceDate = "" Then
+                End
+            End If
+        Loop While Not IsNumeric(choiceDate)
+    Loop While Not Int(choiceDate) < Year(Date) + 1
+    
+    
+    Dim locusA, locusB, locusC, locusDR, locusDQ, locusDP, locusDR345
+    Set locusA = CreateObject("Scripting.Dictionary")
+    Set locusB = CreateObject("Scripting.Dictionary")
+    Set locusC = CreateObject("Scripting.Dictionary")
+    Set locusDR = CreateObject("Scripting.Dictionary")
+    Set locusDQ = CreateObject("Scripting.Dictionary")
+    Set locusDP = CreateObject("Scripting.Dictionary")
+    Set locusDR345 = CreateObject("Scripting.Dictionary")
+    
+    For Each ws In ActiveWorkbook.Worksheets
+        If InStr(ws.Name, "en cours") <> 0 Or InStr(ws.Name, "Historique") <> 0 Then
+            If InStr(ws.Name, "en cours") <> 0 Then
+                locus = Split(ws.Name, " ")(1)
+            ElseIf InStr(ws.Name, "") <> 0 Then
+                Debug.Print ws.Name
+                locus = Split(ws.Name, " ")(3) + "H"
+            End If
+            
+             
+            Select Case locus
+                Case "A"
+                    fillDict locusA, Int(choiceDate), ws.Name
+                Case "B"
+                    fillDict locusB, Int(choiceDate), ws.Name
+                Case "C"
+                    fillDict locusC, Int(choiceDate), ws.Name
+                Case "DR"
+                    fillDict locusDR, Int(choiceDate), ws.Name
+                Case "DQ"
+                    fillDict locusDQ, Int(choiceDate), ws.Name
+                Case "DP"
+                    fillDict locusDP, Int(choiceDate), ws.Name
+                Case "DR345"
+                    fillDict locusDR345, Int(choiceDate), ws.Name
+                Case "AH"
+                    fillDictHisto locusA, Int(choiceDate), ws.Name
+                Case "BH"
+                    fillDictHisto locusB, Int(choiceDate), ws.Name
+                Case "CH"
+                    fillDictHisto locusC, Int(choiceDate), ws.Name
+                Case "DRH"
+                    fillDictHisto locusDR, Int(choiceDate), ws.Name
+                Case "DQH"
+                    fillDictHisto locusDQ, Int(choiceDate), ws.Name
+                Case "DPH"
+                    fillDictHisto locusDP, Int(choiceDate), ws.Name
+                Case "DR345H"
+                    fillDictHisto locusDR345, Int(choiceDate), ws.Name
+            End Select
+        End If
+    Next ws
+    
+    genStats locusA, ActiveWorkbook.Worksheets("Stats").Cells(2, 1)
+    genStats locusB, ActiveWorkbook.Worksheets("Stats").Cells(14, 1)
+    genStats locusC, ActiveWorkbook.Worksheets("Stats").Cells(26, 1)
+    genStats locusDR, ActiveWorkbook.Worksheets("Stats").Cells(38, 1)
+    genStats locusDQ, ActiveWorkbook.Worksheets("Stats").Cells(50, 1)
+    genStats locusDP, ActiveWorkbook.Worksheets("Stats").Cells(62, 1)
+    genStats locusDR345, ActiveWorkbook.Worksheets("Stats").Cells(74, 1)
+    
+    genSynthStats ActiveWorkbook.Worksheets("Stats").Cells(2, 12)
+    
+    With Range("L19")
+        .Value = "Statistiques des séries de SSO pour l'année " + choiceDate
+        .Font.Bold = True
+        .Font.Size = 24
+    End With
+    
+    Worksheets("Stats").Protect ("bio1fo")
+    Application.ScreenUpdating = True
+End Sub
+
+Sub fillDict(dict As Variant, choiceDate As Integer, ws As String)
+    Dim cellDate As Object, tableau As Variant
+    Set cellDate = Worksheets(ws).Rows(10).Find("Date d'analyse")
+    
+    lastrow = Worksheets(ws).Rows(11).Find("BILLE").End(xlDown).Row
+    
+    For Each d In Range(Worksheets(ws).Cells(cellDate.Row, cellDate.Column + 1), cellDate.End(xlToRight))
+        If VarType(d.Value) = vbDate Then
+            If Year(d) = choiceDate Then
+                tech = Trim(UCase(Worksheets(ws).Cells(d.Row - 1, d.Column).Text))
+                
+                If Not dict.exists(tech) Then
+                    Dim arr As Variant
+                    arr = Array(0, 0, 0, 0, 0, 0, 0)
+                    dict.Add tech, arr
+                End If
+                
+                '          0           1            2            3            4            5            6
+                'array(nb séries ; nb loupées ; nb vertes ; nb oranges ; nb rouges ; nb faux pos ; nb faux neg)
+                
+                tableau = dict(tech)
+                tableau(0) = tableau(0) + 1
+                
+                
+                'loupées
+                If Worksheets(ws).Cells(d.Row - 2, d.Column).Text = "VRAI" Then
+                    tableau(1) = tableau(1) + 1
+                End If
+                 
+                For Each cell In Range(Worksheets(ws).Cells(d.Row + 2, d.Column), Worksheets(ws).Cells(lastrow, d.Column))
+                    If cell.Interior.Color = "5296274" Then
+                        tableau(2) = tableau(2) + 1
+                    ElseIf cell.Interior.Color = "49407" Then
+                        tableau(3) = tableau(3) + 1
+                    ElseIf cell.Interior.Color = "255" Then
+                        tableau(4) = tableau(4) + 1
+                    ElseIf cell.Interior.Color = "10498160" Then
+                        tableau(5) = tableau(5) + 1
+                    ElseIf cell.Interior.Color = "12611584" Then
+                        tableau(6) = tableau(6) + 1
+                    End If
+                Next cell
+                dict(tech) = tableau
+    
+            End If
+        End If
+    Next d
+    
+End Sub
+
+Sub fillDictHisto(dict As Variant, choiceDate As Integer, ws As String)
+    Worksheets(ws).Unprotect ("bio1fo")
+    For Each d In Range(Worksheets(ws).Cells(3, 1), Worksheets(ws).Cells(3, Worksheets(ws).Cells.SpecialCells(xlCellTypeLastCell).Column))
+        
+        lastrow = Worksheets(ws).Rows(4).Find("BILLE").End(xlDown).Row
+        
+        If d.Value <> "" And VarType(d.Value) = vbDate Then
+            If Year(d) = choiceDate Then
+                tech = Trim(UCase(Worksheets(ws).Cells(d.Row - 1, d.Column).Text))
+                
+                Debug.Print CStr(Year(d)) + " " + tech + " " + CStr(d) + " " + Cells(d.Row - 2, d.Column).Address
+                
+                
+                If Not dict.exists(tech) Then
+                    arr = Array(0, 0, 0, 0, 0, 0, 0)
+                    dict.Add tech, arr
+                End If
+                
+                '          0           1            2           3            4           5            6
+                'array(nb séries ;nb loupées ; nb vertes ; nb oranges ; nb rouges ; nb faux pos ; nb faux neg)
+                
+                tableau = dict(tech)
+                tableau(0) = tableau(0) + 1
+                
+                
+                'loupées
+                If Worksheets(ws).Cells(d.Row - 2, d.Column).Text = "VRAI" Then
+                    tableau(1) = tableau(1) + 1
+                End If
+                
+                For Each cell In Range(Worksheets(ws).Cells(d.Row + 2, d.Column), Worksheets(ws).Cells(lastrow, d.Column))
+                    If cell.Interior.Color = "5296274" Then
+                        tableau(2) = tableau(2) + 1
+                    ElseIf cell.Interior.Color = "49407" Then
+                        tableau(3) = tableau(3) + 1
+                    ElseIf cell.Interior.Color = "255" Then
+                        tableau(4) = tableau(4) + 1
+                    ElseIf cell.Interior.Color = "10498160" Then
+                        tableau(5) = tableau(5) + 1
+                    ElseIf cell.Interior.Color = "12611584" Then
+                        tableau(6) = tableau(6) + 1
+                    End If
+                Next cell
+                
+                dict(tech) = tableau
+            End If
+        End If
+    Next d
+    Worksheets(ws).Protect ("bio1fo")
+End Sub
+
+Sub genStats(dict As Variant, start As Object)
+    ActiveWorkbook.Worksheets("Stats").Activate
+
+    Dim tableau As Variant
+
+    colonne = 1
+    For Each tech In dict.keys
+        colonne = colonne + 1
+        tableau = dict(tech)
+        
+        tot = tableau(2) + tableau(3) + tableau(4) + tableau(5) + tableau(6)
+        
+        If tot = 0 Then
+            tot = 1
+        End If
+        
+        'tech
+        Cells(start.Row, colonne) = tech
+        
+        'nb série
+        Cells(start.Row + 1, colonne) = tableau(0)
+        
+        'nb réussies
+        Cells(start.Row + 2, colonne) = tableau(0) - tableau(1)
+        
+        'nb loupées
+        Cells(start.Row + 3, colonne) = tableau(1)
+        
+        'taux vertes
+        Cells(start.Row + 4, colonne) = (tableau(2) / tot) * 100
+        
+        'taux oranges
+        Cells(start.Row + 5, colonne) = (tableau(3) / tot) * 100
+        
+        'taux rouges
+        Cells(start.Row + 6, colonne) = (tableau(4) / tot) * 100
+        
+        'taux faux pos
+        Cells(start.Row + 7, colonne) = (tableau(5) / tot) * 100
+        
+        'taux faux neg
+        Cells(start.Row + 8, colonne) = (tableau(6) / tot) * 100
+        
+    Next tech
+End Sub
+
+Sub genSynthStats(start As Object)
+    
+    'récupération valeurs et incrémentation tableau
+    Dim dicStats, listetechs As Variant
+    Set dicStats = CreateObject("Scripting.Dictionary")
+    colonne = 12
+    For Each ligne In Array(2, 14, 26, 38, 50, 62, 74)
+        For Each tech In Range(Cells(ligne, 2), Cells(ligne, 9))
+            If tech <> "" Then
+                If dicStats.exists(tech.Text) Then
+                    tempListe = dicStats(tech.Text)
+
+                    tempListe(0) = tempListe(0) + CDbl(Cells(tech.Row + 1, tech.Column).Value)
+                    tempListe(1) = tempListe(1) + CDbl(Cells(tech.Row + 3, tech.Column).Value)
+                    tempListe(2) = tempListe(2) + CDbl(Cells(tech.Row + 4, tech.Column).Value)
+                    tempListe(3) = tempListe(3) + CDbl(Cells(tech.Row + 5, tech.Column).Value)
+                    tempListe(4) = tempListe(4) + CDbl(Cells(tech.Row + 6, tech.Column).Value)
+                    tempListe(5) = tempListe(5) + CDbl(Cells(tech.Row + 7, tech.Column).Value)
+                    tempListe(6) = tempListe(6) + CDbl(Cells(tech.Row + 8, tech.Column).Value)
+                    tempListe(7) = tempListe(7) + 1
+                    
+                    dicStats(tech.Text) = tempListe
+                Else
+                    dicStats.Add tech.Text, Array(CDbl(Cells(tech.Row + 1, tech.Column).Value), _
+                                                CDbl(Cells(tech.Row + 3, tech.Column).Value), _
+                                                CDbl(Cells(tech.Row + 4, tech.Column).Value), _
+                                                CDbl(Cells(tech.Row + 5, tech.Column).Value), _
+                                                CDbl(Cells(tech.Row + 6, tech.Column).Value), _
+                                                CDbl(Cells(tech.Row + 7, tech.Column).Value), _
+                                                CDbl(Cells(tech.Row + 8, tech.Column).Value), _
+                                                1)
+                                                
+                End If
+            End If
+        Next tech
+    Next ligne
+    
+    'remplissage tableau
+    colonne = start.Column
+    For Each tech In dicStats.keys
+        colonne = colonne + 1
+        tempListe = dicStats(tech)
+        Cells(start.Row, colonne) = tech
+        Cells(start.Row + 1, colonne) = tempListe(0)
+        Cells(start.Row + 2, colonne) = tempListe(0) - tempListe(1)
+        Cells(start.Row + 3, colonne) = tempListe(1)
+        Cells(start.Row + 4, colonne) = tempListe(2) / tempListe(7)
+        Cells(start.Row + 5, colonne) = tempListe(3) / tempListe(7)
+        Cells(start.Row + 6, colonne) = tempListe(4) / tempListe(7)
+        Cells(start.Row + 7, colonne) = tempListe(5) / tempListe(7)
+        Cells(start.Row + 8, colonne) = tempListe(6) / tempListe(7)
+    Next tech
+    
+End Sub
+
+Function arrExist(arr As Variant, val As String) As Boolean
+    arrExist = False
+    
+    For Each elmt In arr
+        If elmt = arr Then
+            arrExist = True
+            Exit For
+        End If
+    Next arr
+End Function
+
+
