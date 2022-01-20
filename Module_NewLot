@@ -4,18 +4,16 @@ Sub NewLot(ws As String, newNum As String)
     'Récupéréation cellule en haut à gauche
     Dim headTab As Object
     
-    Set headTab = Worksheets(ws).Cells.Find("Technicien")
+    Set headTab = Worksheets(ws).Cells.Find("Validation arrivage")
     
     If headTab Is Nothing Then
-        Set headTab = Cells.Find("Date")
+        Set headTab = Cells.Find("Exclusion")
         If headTab Is Nothing Then
-            MsgBox "La feuille ouverte ne semble pas exploitable par la macro."
+            MsgBox "Il semble y avoir un problème avec l'archivage du lot, veuillez vous rapporcher d'un (bio)information."
             End
         Else
-            Set headTab = Worksheets(ws).Cells(headTab.Row - 2, headTab.Column + 1)
+            Set headTab = Worksheets(ws).Cells(headTab.Row - 2, headTab.Column)
         End If
-    Else
-        Set headTab = Worksheets(ws).Cells(headTab.Row - 1, headTab.Column + 1)
     End If
     
     
@@ -29,7 +27,7 @@ Sub NewLot(ws As String, newNum As String)
         Exit Sub
     End If
     
-    Set bottomTab = Worksheets(ws).Cells(billeHead.End(xlDown).Row, Cells(headTab.Row + 1, headTab.Column).End(xlToRight).Column)
+    Set bottomTab = Worksheets(ws).Cells(billeHead.End(xlDown).Row, Cells(headTab.Row + 3, headTab.Column).End(xlToRight).Column)
     
     
     'récupération locus
@@ -81,8 +79,8 @@ Sub NewLot(ws As String, newNum As String)
     Next chk
     
     'copie collage
-    Range(Worksheets(ws).Cells(billeHead.Row, billeHead.Column), Worksheets(ws).Cells(billeHead.End(xlDown).Row, billeHead.Column)).Copy Worksheets(sheetName).Cells(4, lastCol)
-    Range(headTab, bottomTab).Copy Worksheets(sheetName).Cells(1, lastCol + 1)
+    Range(Worksheets(ws).Cells(billeHead.Row, billeHead.Column), Worksheets(ws).Cells(billeHead.End(xlDown).Row, billeHead.Column)).Copy Worksheets(sheetName).Cells(7, lastCol)
+    Range(headTab, bottomTab).Copy Worksheets(sheetName).Cells(2, lastCol + 1)
     
     'suppression couleurs
     With Range(headTab, bottomTab).Interior
@@ -95,13 +93,16 @@ Sub NewLot(ws As String, newNum As String)
     
     'Nettoyage tableau
     Range(Worksheets(ws).Cells(billeHead.Row + 1, billeHead.Column), Worksheets(ws).Cells(billeHead.End(xlDown).Row, billeHead.Column + 3)).ClearContents
-    Range(headTab, bottomTab).ClearContents
+    Range(Worksheets(ws).Cells(headTab.Row, headTab.Column + 1), bottomTab).ClearContents
+    
+    Dim cellCTRL
+    Set cellCTRL = Worksheets(ws).Rows(8).Find("Billes CTRL")
+    Worksheets(ws).Cells(cellCTRL.Row, cellCTRL.Column + 1).ClearContents
     
     'nouveau numéro de lot
     Worksheets(ws).Cells(lotCell.Row, lotCell.Column + 1).Value = newNum
     Application.ScreenUpdating = True
     
-    Worksheets(ws).Protect ("bio1fo")
-    Worksheets(sheetName).Unprotect ("bio1fo")
+    Worksheets(sheetName).Protect ("bio1fo")
 End Sub
 
