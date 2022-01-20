@@ -18,160 +18,24 @@ Sub AddSSO()
     Dim listLocus As Variant
     listeLocus = Array()
     
+    Dim listErrors As Variant
+    listErrors = Array()
 
-'    For Each ws In ActiveWorkbook.Worksheets
-'
-'        If InStr(ws.Name, "en cours") <> 0 Then
-'            locus = Split(ws.Name, " ")(1)
-'
-'            Dim cellRxn As Object, cellBille As Object, cellDate As Object
-'
-'            Set cellRxn = Worksheets(ws.Name).Rows(11).Find("Rxn")
-'            Set cellBille = Worksheets(ws.Name).Rows(11).Find("BILLE")
-'            Set cellCutoff = Worksheets(ws.Name).Rows(11).Find("Cutoff")
-'            Set cellNormal = Worksheets(ws.Name).Rows(11).Find("Normal")
-'            Set cellDate = Worksheets(ws.Name).Rows(10).Find("Date d'analyse")
-'
-'            'initialisation colonne "Normal"
-'            Range(Worksheets(ws.Name).Cells(cellNormal.Row + 1, cellNormal.Column), Worksheets(ws.Name).Cells(cellBille.End(xlDown).Row, cellNormal.Column)).ClearContents
-'
-'            'tri des billes pas ordre croissant
-'            Range(Worksheets(ws.Name).Cells(cellBille.Row + 1, cellBille.Column), Worksheets(ws.Name).Cells(cellBille.End(xlDown).Row, cellDate.End(xlToRight).Column)).Sort _
-'                Worksheets(ws.Name).Columns(cellBille.Column), xlAscending, , , , Header:=xlNo
-'
-'            If Worksheets(ws.Name).Cells(cellDate.Row, cellDate.Column + 1) <> "" Then
-'                lastCol = cellDate.End(xlToRight).Column + 1
-'            Else
-'                lastCol = cellDate.Column + 1
-'            End If
-'
-'
-'
-'            If locus = "A" Then
-'                sessionName = "X1A"
-'            ElseIf locus = "B" Then
-'                sessionName = "X1B"
-'            ElseIf locus = "C" Then
-'                sessionName = "X1C"
-'            ElseIf locus = "DR" Then
-'                sessionName = "X2B"
-'            ElseIf locus = "DQ" Then
-'                sessionName = "2Q"
-'            ElseIf locus = "DP" Then
-'                sessionName = "2P"
-'            ElseIf locus = "DR345" Then
-'                sessionName = "O2345"
-'            End If
-'
-'            completed = False
-'            ligne = cellBille.Row + 1
-'
-'            For Each subArr In listeInit
-'                If InStr(subArr(0), sessionName) <> 0 Then
-'                    Worksheets(ws.Name).Activate
-'
-'                    If Int(Replace(subArr(1), """", "")) = Cells(ligne, cellBille.Column).Value Or lastCol = cellDate.Column + 1 Then
-'
-'                        'gestion première entrée
-'                        If lastCol = cellDate.Column + 1 Then
-'                            Worksheets(ws.Name).Cells(ligne, cellBille.Column) = Replace(subArr(1), """", "") 'Billes
-'                            Worksheets(ws.Name).Cells(ligne, cellRxn.Column) = Replace(subArr(2), """", "") 'Rxn
-'                            Worksheets(ws.Name).Cells(ligne, cellCutoff.Column) = Replace(subArr(5), """", "") 'cutoff
-'                        End If
-'
-'                        Worksheets(ws.Name).Cells(ligne, cellNormal.Column) = Replace(subArr(4), """", "") 'valeurs de la série
-'                        Worksheets(ws.Name).Cells(ligne, lastCol) = Replace(subArr(4), """", "")
-'
-'                        If Worksheets(ws.Name).Cells(cellDate.Row - 1, lastCol) = "" Then 'cellule initiales tech
-'                            Worksheets(ws.Name).Cells(cellDate.Row - 1, lastCol) = UCase(Replace(subArr(7), """", ""))
-'                        End If
-'                        If Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = "" Then 'cellule date d'analyse
-'                            Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = Replace(subArr(6), """", "")
-'                            If Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = "" Then
-'                                Worksheets(ws.Name).Cells(cellDate.Row, lastCol) = "-"
-'                            End If
-'                        End If
-'
-'
-'                        ligne = ligne + 1
-'
-'                        completed = True
-'                    End If
-'                End If
-'            Next subArr
-'
-'            'cellule commentaire
-'            If completed = True Then
-'
-'                'checkbox
-'                AddCheckBox Cells(cellDate.Row - 2, lastCol), False
-'
-'                'liste
-'                addToArray listeLocus, locus
-'            End If
-'
-'            'couleurs
-'            If lastCol > cellDate.Column + 1 And completed = True Then
-'                For Each bille In Range(Worksheets(ws.Name).Cells(cellBille.Row + 1, cellBille.Column), cellBille.End(xlDown))
-'                    moy = Format(Cells(bille.Row, 1).Value, 0)
-'                    ect = Format(Cells(bille.Row, 2).Value, 0)
-'
-'
-'                    For Each valeur In Range(Worksheets(ws.Name).Cells(bille.Row, cellDate.Column + 1), Worksheets(ws.Name).Cells(bille.Row, lastCol))
-'                        If IsNumeric(valeur) And valeur <> "" Then
-'                            If (valeur.Value < (moy + (ect * 2)) And valeur.Value > (moy - (ect * 2))) Or ect = 0 Then
-'                                With valeur
-'                                    .Interior.Color = 5296274  'vert
-'                                    .Font.ColorIndex = xlAutomatic
-'                                    .Font.TintAndShade = 0
-'                                End With
-'                            ElseIf valeur.Value < (moy + (ect * 3)) And valeur.Value > (moy - (ect * 3)) Then
-'                                With valeur
-'                                    .Interior.Color = 49407 'orange
-'                                    .Font.ColorIndex = xlAutomatic
-'                                    .Font.TintAndShade = 0
-'                                End With
-'                            Else
-'                                With valeur
-'                                    .Interior.Color = 255 'rouge
-'                                    .Font.ColorIndex = xlAutomatic
-'                                    .Font.TintAndShade = 0
-'                                End With
-'                            End If
-'
-'                            If (CInt(valeur.Value) > CInt(Worksheets(ws.Name).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(ws.Name).Cells(valeur.Row, cellRxn.Column)) = 1) Then
-'                                With valeur
-'                                    .Interior.Color = 10498160 'violet
-'                                    .Font.ThemeColor = xlThemeColorDark1
-'                                    .Font.TintAndShade = 0
-'                                End With
-'                            ElseIf (CInt(valeur.Value) < CInt(Worksheets(ws.Name).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(ws.Name).Cells(valeur.Row, cellRxn.Column)) = 8) Then
-'                                With valeur
-'                                    .Interior.Color = 12611584 'bleu
-'                                    .Font.ThemeColor = xlThemeColorDark1
-'                                    .Font.TintAndShade = 0
-'                                End With
-'
-'                            End If
-'                        End If
-'                    Next valeur
-'                Next bille
-'            End If
-'
-'            'tri des billes pas ordre croissant
-'            Range(Worksheets(ws.Name).Cells(cellBille.Row + 1, cellBille.Column), Worksheets(ws.Name).Cells(cellBille.End(xlDown).Row, cellDate.End(xlToRight).Column)).Sort _
-'                Worksheets(ws.Name).Columns(cellRxn.Column), xlDescending, , , , Header:=xlNo
-'        End If
-'    Next ws
-
-    '-------------------------------------
     identification = ""
     lastCol = 0
     feuille = ""
+    endLocus = False
+    
     For Each subArr In listeInit
 
         If CStr(subArr(0)) + CStr(Replace(subArr(6), """", "")) <> identification Then
-
+            If endLocus = False And feuille <> "" And identification <> "" Then
+                Set testcell = Worksheets(feuille).Rows(10).Find("Date d'analyse")
+                If Cells(testcell.Row, testcell.Column + 2).Value <> "" Then
+                    addToArray listErrors, Split(feuille, " ")(1)
+                End If
+            End If
+            
             feuille = ""
 
             If InStr(subArr(0), "X1A") <> 0 Then
@@ -192,19 +56,28 @@ Sub AddSSO()
 
 
             If feuille <> "" Then
-            
+
+                'detection locus echoués
                 If inArray(listeLocus, Split(feuille, " ")(1)) = False Then
                     addToArray listeLocus, Split(feuille, " ")(1)
                 End If
                 
-                Dim cellRxn As Object, cellBille As Object, cellDate As Object
+                Dim cellRxn As Object, cellBille As Object, cellDate As Object, cellCTRL As Object, cellLot As Object, listCTRL As Variant
             
                 Set cellRxn = Worksheets(feuille).Rows(11).Find("Rxn")
                 Set cellBille = Worksheets(feuille).Rows(11).Find("BILLE")
                 Set cellCutoff = Worksheets(feuille).Rows(11).Find("Cutoff")
                 Set cellNormal = Worksheets(feuille).Rows(11).Find("Normal")
                 Set cellDate = Worksheets(feuille).Rows(10).Find("Date d'analyse")
-
+                Set cellCTRL = Worksheets(feuille).Rows(8).Find("Billes CTRL")
+                Set cellLot = Worksheets(feuille).Cells.Find("Lot billes")
+                
+                If Worksheets(feuille).Cells(cellCTRL.Row, cellCTRL.Column + 1) <> "" Then
+                    listCTRL = Split(Worksheets(feuille).Cells(cellCTRL.Row, cellCTRL.Column + 1).Text, ",")
+                Else
+                    listCTRL = Array()
+                End If
+                
                 ligne = cellBille.Row + 1
                 'initialisation colonne "Normal"
                 Range(Worksheets(feuille).Cells(cellNormal.Row + 1, cellNormal.Column), Worksheets(feuille).Cells(cellBille.End(xlDown).Row, cellNormal.Column)).ClearContents
@@ -262,25 +135,41 @@ Sub AddSSO()
             If ligne = cellBille.End(xlDown).Row + 1 And lastCol <> cellDate.Column + 1 Then
             
                 For Each bille In Range(Worksheets(feuille).Cells(cellBille.Row + 1, cellBille.Column), cellBille.End(xlDown))
+                    'Debug.Print (Worksheets(feuille).Cells(bille.Row, 1).Value)
                     moy = Format(Worksheets(feuille).Cells(bille.Row, 1).Value, 0)
                     ect = Format(Worksheets(feuille).Cells(bille.Row, 2).Value, 0)
-    
-    
+
+                    
                     For Each valeur In Range(Worksheets(feuille).Cells(bille.Row, cellDate.Column + 1), Worksheets(feuille).Cells(bille.Row, lastCol))
                         If IsNumeric(valeur) And valeur <> "" Then
+                        
+                            d = Worksheets(feuille).Cells(cellDate.Row, cellDate.End(xlToRight).Column)
+                            l = Split(Worksheets(feuille).Name, " ")(1)
+                            dat = Worksheets(feuille).Cells(cellDate.Row, valeur.Column).Value
+                            lot = CInt(Worksheets(feuille).Cells(cellLot.Row, cellLot.Column + 1).Value)
+                            b = CInt(Worksheets(feuille).Cells(valeur.Row, cellBille.Column).Value)
+                            norm = CInt(Worksheets(feuille).Cells(valeur.Row, cellNormal.Column).Value)
+                            rxn = CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column).Value)
+                            cutoff = CInt(Worksheets(feuille).Cells(valeur.Row, cellCutoff.Column).Value)
+                            prevColor = valeur.Interior.Color
+                        
+                        
                             If (valeur.Value < (moy + (ect * 2)) And valeur.Value > (moy - (ect * 2))) Or ect = 0 Then
+                                                                
                                 With valeur
                                     .Interior.Color = 5296274  'vert
                                     .Font.ColorIndex = xlAutomatic
                                     .Font.TintAndShade = 0
                                 End With
                             ElseIf valeur.Value < (moy + (ect * 3)) And valeur.Value > (moy - (ect * 3)) Then
+                                
                                 With valeur
                                     .Interior.Color = 49407 'orange
                                     .Font.ColorIndex = xlAutomatic
                                     .Font.TintAndShade = 0
                                 End With
                             Else
+                                
                                 With valeur
                                     .Interior.Color = 255 'rouge
                                     .Font.ColorIndex = xlAutomatic
@@ -288,19 +177,44 @@ Sub AddSSO()
                                 End With
                             End If
     
-                            If (CInt(valeur.Value) > CInt(Worksheets(feuille).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column)) = 1) Then
+                            If (CInt(valeur.Value) >= CInt(Worksheets(feuille).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column)) = 1) Then
+                                
                                 With valeur
                                     .Interior.Color = 10498160 'violet
                                     .Font.ThemeColor = xlThemeColorDark1
                                     .Font.TintAndShade = 0
                                 End With
-                            ElseIf (CInt(valeur.Value) < CInt(Worksheets(feuille).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column)) = 8) Then
+                            ElseIf (CInt(valeur.Value) <= CInt(Worksheets(feuille).Cells(valeur.Row, cellCutoff.Column).Value)) And (CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column)) = 8) Then
+                                
                                 With valeur
                                     .Interior.Color = 12611584 'bleu
                                     .Font.ThemeColor = xlThemeColorDark1
                                     .Font.TintAndShade = 0
                                 End With
                             End If
+                            
+                            
+                            If inArray(listCTRL, bille) = True Then
+                                If valeur.Value = 100 Then
+                                    With valeur
+                                        .Interior.Color = 5296274  'vert
+                                        .Font.ColorIndex = xlAutomatic
+                                        .Font.TintAndShade = 0
+                                    End With
+                                Else
+                                    With valeur
+                                        .Interior.Color = 7434613 'gris
+                                        .Font.ThemeColor = xlThemeColorDark1
+                                        .Font.TintAndShade = 0
+                                    End With
+                                End If
+                            End If
+                            
+                            If valeur.Interior.Color <> prevColor And lastCol > valeur.Column And lastCol > 18 And inArray(listCTRL, b) = False Then
+                                evolBilles d, l, dat, lot, b, norm, rxn, cutoff, prevColor, valeur.Interior.Color
+                            End If
+                                
+                                
                         End If
                     Next valeur
                 Next bille
@@ -308,22 +222,39 @@ Sub AddSSO()
                 'tri des billes pas ordre croissant
                 Range(Worksheets(feuille).Cells(cellBille.Row + 1, cellBille.Column), Worksheets(feuille).Cells(cellBille.End(xlDown).Row, cellDate.End(xlToRight).Column)).Sort _
                 Worksheets(feuille).Columns(cellRxn.Column), xlDescending, , , , Header:=xlNo
+                
+                endLocus = True
             End If
         End If
         
     Next subArr
     
+    'detection locus echoués
+    If endLocus = False And feuille <> "" And identification <> "" Then
+        If Cells(cellDate.Row, cellDate.Column + 2) <> "" Then
+            addToArray listErrors, Split(feuille, " ")(1)
+        End If
+    End If
+    
     
     '---------------------------------------
     
-    
+     
     Application.ScreenUpdating = True
     ActiveWorkbook.Save
     
     If UBound(listeLocus) > 0 Then
-        MsgBox "L'enregistrement des Locus " + Join(listeLocus, ", ") + " s'est effectué avec succès" + Chr(13) + Chr(13) + "Pensez à compléter vos commentaires pour ces séries"
+        If UBound(listErrors) > -1 Then
+            MsgBox "L'enregistrement des Locus " + Join(listeLocus, ", ") + " est terminé." + Chr(13) + "/!\ Attention : Enregistrement échoué pour le(s) locus : " + Join(listErrors, ", ")
+        Else
+            MsgBox "Enregistrement des Locus " + Join(listeLocus, ", ") + " OK !" + Chr(13) + Chr(13) + "__ Pensez à ajouter vos commentaires pour ces séries __"
+        End If
     Else
-        MsgBox "L'enregistrement du Locus " + listeLocus(0) + " s'est effectué avec succès." + Chr(13) + Chr(13) + "Pensez à compléter votre commentaire pour cette série"
+        If UBound(listErrors) > -1 Then
+            MsgBox "/!\ Attention : L'enregistrement du Locus " + listeLocus(0) + " a échoué." + Chr(13) + Chr(13) + "Vérifiez si le lot ou le catalogue du locus n'a pas été renouvelé, auquel cas effacez les données partiellement enregistrées de votre série, et relancez l'enregistrement en cochant bien la case de changement de lot."
+        Else
+            MsgBox "Enregistrement du Locus " + listeLocus(0) + " OK !" + Chr(13) + Chr(13) + "__ Pensez à ajouter votre commentaire pour cette série __"
+        End If
     End If
     
 End Sub
@@ -366,7 +297,7 @@ Function arrayCSV() As Variant
     Wend
     
     Close #FileNum
-    Kill file1
+    'Kill file1
     arrayCSV = tempCSV
     
 End Function
@@ -397,7 +328,7 @@ End Sub
 Function inArray(arr As Variant, elmt) As Boolean
     inArray = False
     For Each valeur In arr
-        If elmt = valeur Then
+        If CStr(elmt) = CStr(valeur) Then
             inArray = True
             Exit For
         End If
@@ -407,6 +338,46 @@ Sub addToArray(arr As Variant, elmt)
     ReDim Preserve arr(UBound(arr) + 1)
     arr(UBound(arr)) = elmt
 End Sub
+
+Sub evolBilles(d, l, dat, lot, b, norm, rxn, cutoff, prevColor, nouv)
+    Worksheets("Evolution billes").Unprotect ("bio1fo")
+    
+    lastRow = Worksheets("Evolution billes").Cells(1, 1).End(xlDown).Row + 1
+    'If dat = Worksheets("Evolution billes").Cells(lastRow, 1) And bille = Worksheets("Evolution billes").Cells(lastRow, 5) And lastRow > 2 Then
+    'Else
+    '    lastRow = lastRow + 1
+    'End If
+    
+    Worksheets("Evolution billes").Cells(lastRow, 1) = d
+    Worksheets("Evolution billes").Cells(lastRow, 2) = l
+    Worksheets("Evolution billes").Cells(lastRow, 3) = dat
+    Worksheets("Evolution billes").Cells(lastRow, 4) = lot
+    Worksheets("Evolution billes").Cells(lastRow, 5) = b
+    Worksheets("Evolution billes").Cells(lastRow, 6) = norm
+    Worksheets("Evolution billes").Cells(lastRow, 7) = rxn
+    Worksheets("Evolution billes").Cells(lastRow, 8) = cutoff
+    Worksheets("Evolution billes").Cells(lastRow, 9) = categorieBille(prevColor)
+    Worksheets("Evolution billes").Cells(lastRow, 10) = categorieBille(nouv)
+    
+    Worksheets("Evolution billes").Protect ("bio1fo")
+    
+End Sub
+
+Function categorieBille(valeur)
+    If valeur = 5296274 Then 'verte
+        categorieBille = "± 2s"
+    ElseIf valeur = 49407 Then 'orange
+        categorieBille = "± 2-3s"
+    ElseIf valeur = 255 Then 'rouge
+        categorieBille = "± 3s"
+    ElseIf valeur = 10498160 Then 'violet
+        categorieBille = "Faux pos."
+    ElseIf valeur = 12611584 Then 'bleu
+        categorieBille = "Faux neg."
+    Else
+        categorieBille = "NC"
+    End If
+End Function
 
 
 
