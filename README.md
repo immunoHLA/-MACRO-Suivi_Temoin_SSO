@@ -13,7 +13,7 @@ Objectif : Permettre le suivi, l'interprétation et l'archivage des séries de b
 
 Mode d'emploi : 																							
 																					
-	1 - Pré-requis : Télécharger le rapport depuis Fusion																						
+	I. Pré-requis : Télécharger le rapport depuis Fusion																						
 																							
 																							
 	Comme pour le suivi du témoin NGS, un rapport doit être téléchargé depuis le logiciel FUSION. Il permettra à la Macro de récupérer automatiquement les données du témoin sans besoin de																						
@@ -42,7 +42,7 @@ Mode d'emploi :
 																							
 																							
 																							
-	2 - Lancer la macro pour Importer des données, Changer de lot ou Ajouter une série loupée																						
+	II. Lancer la macro pour Importer des données, Changer de lot ou Ajouter une série loupée																						
 																							
 																							
 																							
