@@ -11,20 +11,14 @@ Language : VBA
 Objectif : Permettre le suivi, l'interprétation et l'archivage des séries de billes des différents lots utilisés pour la technique de SSO
 
 
-Mode d'emploi : 																							
-																					
-	I. Pré-requis : Télécharger le rapport depuis Fusion																						
-																							
-																							
+Mode d'emploi : 																		
+	I. Pré-requis : Télécharger le rapport depuis Fusion														
 	Comme pour le suivi du témoin NGS, un rapport doit être téléchargé depuis le logiciel FUSION. Il permettra à la Macro de récupérer automatiquement les données du témoin sans besoin de																						
-	recopier ou de copier-coller.																						
-																							
-	A savoir qu'un rapport peut contenir un ou plusieurs locus à la fois, à vous de choisir celui ou ceux que vous souhaitez archiver.																						
-																							
-	La procédure est décrite ci-dessous.																						
-																							
+	recopier ou de copier-coller.																		
+	A savoir qu'un rapport peut contenir un ou plusieurs locus à la fois, à vous de choisir celui ou ceux que vous souhaitez archiver.					
+	La procédure est décrite ci-dessous.																	
 	![image](https://user-images.githubusercontent.com/78468896/150347114-0fbda3b3-673f-495c-a6aa-7c9d53a15699.png)																			
-	Dans FUSION, cliquer sur l'onglet "Reports"																						
+	Dans FUSION, cliquer sur l'onglet "Reports"														
 	
   ![image](https://user-images.githubusercontent.com/78468896/150347202-77dd90b7-ae8f-4ad6-ace7-8f7c9e6a8ad1.png)
   Filtrer les rapports selon le "T ADN FL" (autrement les rapports seront trop volumineux et longs à télécharger)												
@@ -39,35 +33,23 @@ Mode d'emploi :
 																				
 	Pour l'emplacement du fichier, choisissez de préférence un emplacement simple à atteindre (ex : le Bureau ou votre dossier dans le N-GBEA HLA).																						
 	La macro le supprimera automatiquement une fois les données extraites afin qu'il ne pollue pas vos dossiers de travail.																						
-																							
-																							
-																							
+	
 	II. Lancer la macro pour Importer des données, Changer de lot ou Ajouter une série loupée																						
-																							
-																							
-																							
+		
 	1 ) Cliquez sur l'onglet _MACROS_  dans la barre de tâches																						
 	2 ) Cliquez sur le bouton SUIVI_SSO																						
-																							
-														![image](https://user-images.githubusercontent.com/78468896/150347517-663c84b4-ec87-486d-b395-e9ac9fcfeeef.png)									
-																							
-														(intitulés et logos sont succeptibles de changer)									
+																				![image](https://user-images.githubusercontent.com/78468896/150347517-663c84b4-ec87-486d-b395-e9ac9fcfeeef.png)							(intitulés et logos sont succeptibles de changer)									
 																																									
-	Le formulaire suivant apparaît proposant différentes options facultatives 																						
-																							
-																							
-										![image](https://user-images.githubusercontent.com/78468896/150347595-c6d6aeb5-41c9-4e07-bf25-bf8d2f41b221.png)
+Le formulaire suivant apparaît proposant différentes options facultatives 											![image](https://user-images.githubusercontent.com/78468896/150347595-c6d6aeb5-41c9-4e07-bf25-bf8d2f41b221.png)
 																													
 	EXEMPLE : Pour juste charger une ou plusieur série(s) :																						
 		Premièrement, ne rien cocher																					
 		Deuxièmement, cliquez sur VALIDER et IMPORTER																					
-																							
-																							
-	Après le message de fin reprenant les différents Locus enregistrés, il ne vous reste plus qu'à analyser vos séries et compléter la case commentaire.																						
+		
+	Après le message de fin reprenant les différents Locus enregistrés, il ne vous reste plus qu'à analyser vos séries et compléter la case commentaire.																					
 	Dans le cas d'une série en échec pour une quelconque raison, et si les données sont trop différentes de la tendance jusqu'alors, cochez la case d'exclusion en haut de la colonne. Cette série sera exclue 																						
 	des prochains calculs de moyenne et d'écart-type pour ne pas fausser l'attribution des couleurs.																						
-																							
-																							![image](https://user-images.githubusercontent.com/78468896/150347657-30e3d5b2-1625-4bc0-99d1-8bd446d67634.png)
+																				![image](https://user-images.githubusercontent.com/78468896/150347657-30e3d5b2-1625-4bc0-99d1-8bd446d67634.png)
 
 	Détail des processus :																						
 																							
