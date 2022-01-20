@@ -6,7 +6,7 @@ Sub statsSSO()
     Worksheets("Stats").Unprotect ("bio1fo")
     'nettoyage
     Range("B2:I10,B14:I22,B26:I34,B38:I46,B50:I58,B62:I70,B74:I82,M2:T10").ClearContents
-    Range("L19").ClearContents
+    Range("L18") = ""
 
     Do
         Do
@@ -16,6 +16,8 @@ Sub statsSSO()
             End If
         Loop While Not IsNumeric(choiceDate)
     Loop While Not Int(choiceDate) < Year(Date) + 1
+    
+    Range("L18") = "Statistiques pour l'année " + CStr(choiceDate)
     
     
     Dim locusA, locusB, locusC, locusDR, locusDQ, locusDP, locusDR345
@@ -94,7 +96,7 @@ Sub fillDict(dict As Variant, choiceDate As Integer, ws As String)
     Dim cellDate As Object, tableau As Variant
     Set cellDate = Worksheets(ws).Rows(10).Find("Date d'analyse")
     
-    lastrow = Worksheets(ws).Rows(11).Find("BILLE").End(xlDown).Row
+    lastRow = Worksheets(ws).Rows(11).Find("BILLE").End(xlDown).Row
     
     For Each d In Range(Worksheets(ws).Cells(cellDate.Row, cellDate.Column + 1), cellDate.End(xlToRight))
         If VarType(d.Value) = vbDate Then
@@ -119,7 +121,7 @@ Sub fillDict(dict As Variant, choiceDate As Integer, ws As String)
                     tableau(1) = tableau(1) + 1
                 End If
                  
-                For Each cell In Range(Worksheets(ws).Cells(d.Row + 2, d.Column), Worksheets(ws).Cells(lastrow, d.Column))
+                For Each cell In Range(Worksheets(ws).Cells(d.Row + 2, d.Column), Worksheets(ws).Cells(lastRow, d.Column))
                     If cell.Interior.Color = "5296274" Then
                         tableau(2) = tableau(2) + 1
                     ElseIf cell.Interior.Color = "49407" Then
@@ -142,11 +144,11 @@ End Sub
 
 Sub fillDictHisto(dict As Variant, choiceDate As Integer, ws As String)
     Worksheets(ws).Unprotect ("bio1fo")
-    For Each d In Range(Worksheets(ws).Cells(3, 1), Worksheets(ws).Cells(3, Worksheets(ws).Cells.SpecialCells(xlCellTypeLastCell).Column))
+    For Each d In Range(Worksheets(ws).Cells(6, 1), Worksheets(ws).Cells(6, Worksheets(ws).Cells.SpecialCells(xlCellTypeLastCell).Column))
         
-        lastrow = Worksheets(ws).Rows(4).Find("BILLE").End(xlDown).Row
+        lastRow = Worksheets(ws).Rows(7).Find("BILLE").End(xlDown).Row
         
-        If d.Value <> "" And VarType(d.Value) = vbDate Then
+        If d.Value <> "" And d.Value <> "Date d'analyse" And VarType(d.Value) = vbDate Then
             If Year(d) = choiceDate Then
                 tech = Trim(UCase(Worksheets(ws).Cells(d.Row - 1, d.Column).Text))
                 
@@ -170,7 +172,7 @@ Sub fillDictHisto(dict As Variant, choiceDate As Integer, ws As String)
                     tableau(1) = tableau(1) + 1
                 End If
                 
-                For Each cell In Range(Worksheets(ws).Cells(d.Row + 2, d.Column), Worksheets(ws).Cells(lastrow, d.Column))
+                For Each cell In Range(Worksheets(ws).Cells(d.Row + 2, d.Column), Worksheets(ws).Cells(lastRow, d.Column))
                     If cell.Interior.Color = "5296274" Then
                         tableau(2) = tableau(2) + 1
                     ElseIf cell.Interior.Color = "49407" Then
