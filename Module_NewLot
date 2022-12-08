@@ -29,9 +29,12 @@ Sub NewLot(ws As String, newNum As String)
     
     Set bottomTab = Worksheets(ws).Cells(billeHead.End(xlDown).Row, Cells(headTab.Row + 3, headTab.Column).End(xlToRight).Column)
     
+    'affichage colonnes masquées
+    Range(headTab, bottomTab).EntireColumn.Hidden = False
+    
     
     'récupération locus
-    locus = Split(ws, " ")(1)
+    Locus = Split(ws, " ")(1)
     
     
     'ouverture nouvelle feuille
@@ -39,22 +42,22 @@ Sub NewLot(ws As String, newNum As String)
     
     For Each Worksheet In Worksheets
         nom = Worksheet.Name
-        If nom = "Historique - Locus " + locus Then
+        If nom = "Historique - Locus " + Locus Then
             newSh = True
             Exit For
         End If
     Next Worksheet
     
     If newSh = False Then
-        Sheets.Add(After:=Worksheets(Worksheets.Count)).Name = "Historique - Locus " + locus
-        Worksheets("Historique - Locus " + locus).Protect ("bio1fo")
+        Sheets.Add(After:=Worksheets(Worksheets.Count)).Name = "Historique - Locus " + Locus
+        Worksheets("Historique - Locus " + Locus).Protect ("bio1fo")
     End If
 
 
     'copie-collage données dans nouvelle feuille
     Dim sheetName As String
     
-    sheetName = "Historique - Locus " + locus
+    sheetName = "Historique - Locus " + Locus
     Worksheets(sheetName).Unprotect ("bio1fo")
     
     lastCol = Worksheets(sheetName).Cells.SpecialCells(xlCellTypeLastCell).Column
