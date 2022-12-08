@@ -1,10 +1,10 @@
 
 Private Sub CheckBoxA_Click()
     If CheckBoxA.Value = True Then
-        newA.Visible = True
+        newNumA.Visible = True
         num2.Visible = True
     Else
-        newA.Visible = False
+        newNumA.Visible = False
     End If
     
     If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
@@ -15,10 +15,10 @@ End Sub
 
 Private Sub CheckBoxB_Click()
     If CheckBoxB.Value = True Then
-        newB.Visible = True
+        newNumB.Visible = True
         num2.Visible = True
     Else
-        newB.Visible = False
+        newNumB.Visible = False
     End If
     
     If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
@@ -28,10 +28,10 @@ End Sub
 
 Private Sub CheckBoxC_Click()
     If CheckBoxC.Value = True Then
-        newC.Visible = True
+        newNumC.Visible = True
         num2.Visible = True
     Else
-        newC.Visible = False
+        newNumC.Visible = False
     End If
     
     If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
@@ -41,10 +41,10 @@ End Sub
 
 Private Sub CheckBoxDR_Click()
     If CheckBoxDR.Value = True Then
-        newDR.Visible = True
+        newNumDR.Visible = True
         num2.Visible = True
     Else
-        newDR.Visible = False
+        newNumDR.Visible = False
     End If
     
     If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
@@ -54,10 +54,10 @@ End Sub
 
 Private Sub CheckBoxDP_Click()
     If CheckBoxDP.Value = True Then
-        newDP.Visible = True
+        newNumDP.Visible = True
         num2.Visible = True
     Else
-        newDP.Visible = False
+        newNumDP.Visible = False
     End If
     
     If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
@@ -67,10 +67,10 @@ End Sub
 
 Private Sub CheckBoxDQ_Click()
     If CheckBoxDQ.Value = True Then
-        newDQ.Visible = True
+        newNumDQ.Visible = True
         num2.Visible = True
     Else
-        newDQ.Visible = False
+        newNumDQ.Visible = False
     End If
     
     If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
@@ -80,10 +80,10 @@ End Sub
 
 Private Sub CheckBoxDR345_Click()
     If CheckBoxDR345.Value = True Then
-        newDR345.Visible = True
+        newNumDR345.Visible = True
         num2.Visible = True
     Else
-        newDR345.Visible = False
+        newNumDR345.Visible = False
     End If
     
     If CheckBoxA.Value = False And CheckBoxB.Value = False And CheckBoxC.Value = False And CheckBoxDR.Value = False And CheckBoxDQ.Value = False And CheckBoxDP.Value = False And CheckBoxDR345.Value = False Then
@@ -253,32 +253,32 @@ End Sub
 
 Sub actionCheckboxes()
     If CheckBoxA.Value = True Then 'changement lot locus A
-        NewLot "Locus A en cours", newA.Value
+        NewLot "Locus A en cours", newNumA.Value
     End If
     
     If CheckBoxB.Value = True Then 'changement lot locus B
-        NewLot "Locus B en cours", newB.Value
+        NewLot "Locus B en cours", newNumB.Value
     End If
     
     If CheckBoxC.Value = True Then 'changement lot locus C
-        NewLot "Locus C en cours", newC.Value
+        NewLot "Locus C en cours", newNumC.Value
     End If
     
     If CheckBoxDR.Value = True Then 'changement lot locus DR
-        NewLot "Locus DR en cours", newDR.Value
+        NewLot "Locus DR en cours", newNumDR.Value
     End If
     
     If CheckBoxDQ.Value = True Then 'changement lot locus DQ
-        NewLot "Locus DQ en cours", newDQ.Value
+        NewLot "Locus DQ en cours", newNumDQ.Value
     End If
     
     If CheckBoxDP.Value = True Then 'changement lot locus DP
-        NewLot "Locus DP en cours", newDP.Value
+        NewLot "Locus DP en cours", newNumDP.Value
     End If
     
     
     If CheckBoxDR345.Value = True Then 'changement lot locus DR345
-        NewLot "Locus DR345 en cours", newDR345.Value
+        NewLot "Locus DR345 en cours", newNumDR345.Value
     End If
     
     Dim cellDate As Object
@@ -394,20 +394,30 @@ Private Sub CommandButton2_Click()
     End
 End Sub
 
-Private Sub Label19_Click()
 
-End Sub
-
-Private Sub Label2_Click()
-
-End Sub
-
-Private Sub Label7_Click()
+Private Sub locusB_Click()
 
 End Sub
 
 Private Sub validButton_Click()
     actionCheckboxes
     Unload Me
+End Sub
+
+Private Sub UserForm_Activate()
+ 
+    With Application
+        LargeurFenetre = .Width
+        HauteurFenetre = .Height
+        PositionGauche = .Left
+        PositionHaut = .Top
+     End With
+     With Me
+      .Left = (PositionGauche + LargeurFenetre) - ((LargeurFenetre + .Width) / 2)
+      .Top = (PositionHaut + HauteurFenetre) - ((HauteurFenetre + .Height) / 2)
+     End With
+
+     
+ 
 End Sub
 
