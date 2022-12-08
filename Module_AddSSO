@@ -87,7 +87,8 @@ Sub AddSSO()
                     Worksheets(feuille).Columns(cellBille.Column), xlAscending, , , , Header:=xlNo
 
                 'derniere colonne
-                If Worksheets(feuille).Cells(cellDate.Row, cellDate.Column + 1) <> "" Then
+                
+                If Worksheets(feuille).Cells(cellDate.Row, cellDate.Column + 1) Then
                     lastCol = cellDate.End(xlToRight).Column + 1
                 Else
                     lastCol = cellDate.Column + 1
@@ -146,7 +147,7 @@ Sub AddSSO()
                             d = Worksheets(feuille).Cells(cellDate.Row, cellDate.End(xlToRight).Column)
                             l = Split(Worksheets(feuille).Name, " ")(1)
                             dat = Worksheets(feuille).Cells(cellDate.Row, valeur.Column).Value
-                            lot = CInt(Worksheets(feuille).Cells(cellLot.Row, cellLot.Column + 1).Value)
+                            lot = Worksheets(feuille).Cells(cellLot.Row, cellLot.Column + 1).Value
                             b = CInt(Worksheets(feuille).Cells(valeur.Row, cellBille.Column).Value)
                             norm = CInt(Worksheets(feuille).Cells(valeur.Row, cellNormal.Column).Value)
                             rxn = CInt(Worksheets(feuille).Cells(valeur.Row, cellRxn.Column).Value)
@@ -285,7 +286,14 @@ Function arrayCSV() As Variant
     
     While Not EOF(1)
         Line Input #FileNum, MyLine
-        subArray = Split(MyLine, ";")
+        If InStr(MyLine, ";") <> 0 Then
+            subArray = Split(MyLine, ";")
+        ElseIf InStr(MyLine, ",") <> 0 Then
+            subArray = Split(MyLine, ",")
+        Else
+            MsgBox "La Macro rencontre un problème de lecture du fichier issu de FUSION. Veuillez vous rapprocher de l'informaticien du secteur.", vbOKOnly, "Erreur de lecture"
+            End
+        End If
             
         If IsEmpty(tempCSV) Then
             tempCSV = Array(subArray)
