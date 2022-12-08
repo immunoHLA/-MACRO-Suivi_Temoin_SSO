@@ -32,14 +32,14 @@ Sub statsSSO()
     For Each ws In ActiveWorkbook.Worksheets
         If InStr(ws.Name, "en cours") <> 0 Or InStr(ws.Name, "Historique") <> 0 Then
             If InStr(ws.Name, "en cours") <> 0 Then
-                locus = Split(ws.Name, " ")(1)
+                Locus = Split(ws.Name, " ")(1)
             ElseIf InStr(ws.Name, "") <> 0 Then
                 Debug.Print ws.Name
-                locus = Split(ws.Name, " ")(3) + "H"
+                Locus = Split(ws.Name, " ")(3) + "H"
             End If
             
              
-            Select Case locus
+            Select Case Locus
                 Case "A"
                     fillDict locusA, Int(choiceDate), ws.Name
                 Case "B"
